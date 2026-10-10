@@ -1,3 +1,23 @@
-module PC(input clk,input reset,input enable,input load,input [3:0] load_value,output reg [3:0] pc);
-always @(posedge clk or posedge reset) if(reset) pc<=0; else if(load) pc<=load_value; else if(enable) pc<=pc+1'b1;
+module program_counter(
+    input clk,
+    input reset,
+    input CE,    
+    input CL,
+    input CO,
+    input [3:0] bus_in,
+    output reg [3:0]pc,       
+    output [7:0] bus_out
+);
+
+always @(posedge clk or posedge reset) begin
+
+ if (reset)
+ pc <= 4'b0000;
+  else if (CL)
+ pc <= bus_in;
+ else if (CE)
+ pc <= pc + 4'b0001;
+end
+assign bus_out = CO ?{4'b0000,pc}:8'bz;
+
 endmodule
