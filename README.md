@@ -36,5 +36,5 @@ Add your verified simulation results, supported instructions, and waveforms here
 ## Contributors
 
 - **Hariharan VT** — Project design and implementation
-- **Kaleeswar** — Testing and verification
-- **Sabarna P** — Documentation and project support
+- **Sabarna P** — Testing and verification
+- **Kaleeswar** — Documentation and project support
