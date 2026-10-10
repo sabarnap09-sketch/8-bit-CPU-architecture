@@ -33,4 +33,8 @@ This project demonstrates the organization of an 8-bit CPU using Verilog HDL, in
 
 ## Results
 Add your verified simulation results, supported instructions, and waveforms here.
+## Contributors
 
+- **Hariharan VT** — Project design and implementation
+- **Kaleeswar** — Testing and verification
+- **Sabarna P** — Documentation and project support
