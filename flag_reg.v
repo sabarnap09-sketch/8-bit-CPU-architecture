@@ -1,4 +1,17 @@
-module flag_reg(input clk,input reset,input load,input zero_in,input carry_in,output reg zero_flag,output reg carry_flag);
-always @(posedge clk or posedge reset) if(reset) begin zero_flag<=0; carry_flag<=0; end
-else if(load) begin zero_flag<=zero_in; carry_flag<=carry_in; end
+module Flag_Register(zero,carry,clk,reset,FE,carry_in,zero_in);
+output reg carry,zero;
+input clk,reset,FE,carry_in,zero_in;
+always @(posedge clk or posedge reset)
+begin
+if(reset)
+begin
+carry<=1'b0;
+zero<=1'b0;
+end
+else if(FE)
+begin
+carry<=carry_in;
+zero<=zero_in;
+end
+end 
 endmodule
