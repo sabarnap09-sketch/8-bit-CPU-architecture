@@ -1,5 +1,25 @@
-module RAM(input clk,input write_enable,input [3:0] address,input [7:0] data_in,output wire [7:0] data_out);
-reg [7:0] mem[0:15];
-always @(posedge clk) if(write_enable) mem[address]<=data_in;
-assign data_out=mem[address];
+module RAM(bus_out,bus_in,address,RI,RO,
+clk,load,in_address,in_data);
+output [7:0]bus_out;
+input [7:0]bus_in;
+input [7:0]in_data;
+input [3:0]address;
+input [3:0]in_address;
+input RO,RI,clk,load;
+reg [7:0] memory [0:15];
+integer i;
+initial
+$readmemb ("hram.mem",memory);
+always @(posedge clk )
+begin
+ if(load)
+begin
+memory[in_address]<=in_data;
+end 
+else if (RI)
+begin
+memory[address] <= bus_in;
+end
+end
+assign bus_out =(!load&&RO) ? memory[address]:8'bz;
 endmodule
