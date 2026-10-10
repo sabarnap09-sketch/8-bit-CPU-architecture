@@ -1,3 +1,14 @@
-module reg_OUT(input clk,input reset,input load,input [7:0] data_in,output reg [7:0] data_out);
-always @(posedge clk or posedge reset) if(reset) data_out<=0; else if(load) data_out<=data_in;
+module OR(OUT,bus_in,clk,reset,OI);
+output [7:0]OUT;
+input clk,reset,OI;
+input [7:0]bus_in;
+reg [7:0] reg_out;
+always @(posedge clk or posedge reset)
+begin
+if(reset)
+reg_out<=8'b00000000;
+else if(OI)
+reg_out<=bus_in;
+end
+assign OUT = reg_out;
 endmodule
