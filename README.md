@@ -37,6 +37,7 @@ CMP — Compare
 JMP — Unconditional jump
 JZ — Jump if zero
 HLT — Halt
+
 ## Instruction Cycle
 1. Fetch the instruction.
 2. Decode the opcode.
