@@ -22,9 +22,13 @@ This project demonstrates the organization of an 8-bit CPU using Verilog HDL, in
 - Clock and Reset
 ## Instruction Set Architecture
 NOP — No operation
+
 LDI — Load immediate
+
 LD — Load from RAM
+
 ST — Store to RAM
+
 ADD — Addition
 SUB — Subtraction
 AND — Bitwise AND
