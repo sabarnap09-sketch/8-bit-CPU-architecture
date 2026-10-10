@@ -20,7 +20,23 @@ This project demonstrates the organization of an 8-bit CPU using Verilog HDL, in
 - Instruction Register (IR)
 - Memory / RAM
 - Clock and Reset
-
+## Instruction Set Architecture
+NOP — No operation
+LDI — Load immediate
+LD — Load from RAM
+ST — Store to RAM
+ADD — Addition
+SUB — Subtraction
+AND — Bitwise AND
+OR — Bitwise OR
+XOR — Bitwise XOR
+NOT — Bitwise NOT
+SHL — Shift left
+SHR — Shift right
+CMP — Compare
+JMP — Unconditional jump
+JZ — Jump if zero
+HLT — Halt
 ## Instruction Cycle
 1. Fetch the instruction.
 2. Decode the opcode.
