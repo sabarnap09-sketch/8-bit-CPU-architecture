@@ -1,3 +1,11 @@
-module INP_reg(input clk,input reset,input load,input [7:0] data_in,output reg [7:0] data_out);
-always @(posedge clk or posedge reset) if(reset) data_out<=0; else if(load) data_out<=data_in;
+module MAR(mar_out,clk,reset,MI,bus_in);
+output reg [3:0] mar_out;
+input clk,reset,MI;
+input [3:0]bus_in;
+always @(posedge clk or posedge reset) begin
+if (reset)
+mar_out <= 4'b0000;
+else if (MI)
+mar_out <= bus_in;
+end
 endmodule
