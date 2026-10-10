@@ -30,16 +30,27 @@ LD — Load from RAM
 ST — Store to RAM
 
 ADD — Addition
+
 SUB — Subtraction
+
 AND — Bitwise AND
+
 OR — Bitwise OR
+
 XOR — Bitwise XOR
+
 NOT — Bitwise NOT
+
 SHL — Shift left
+
 SHR — Shift right
+
 CMP — Compare
+
 JMP — Unconditional jump
+
 JZ — Jump if zero
+
 HLT — Halt
 
 ## Instruction Cycle
