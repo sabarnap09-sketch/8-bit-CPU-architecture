@@ -1,10 +1,86 @@
-module Out_display(input [7:0] value,output [6:0] seg_hi,output [6:0] seg_lo);
-hex7seg h(value[7:4],seg_hi); hex7seg l(value[3:0],seg_lo);
+module DC(
+    input clk,
+    input rst,
+    input [7:0] cpu_output,
+    output reg [3:0] AN,
+    output wire [7:0] seg
+);
+
+    reg [15:0] clk_div;
+    wire [1:0] display_selection;
+
+    reg [3:0] display_bcd;
+    reg dp;
+
+    wire [3:0] hundreds;
+    wire [3:0] tens;
+    wire [3:0] ones;
+
+    reg [6:0] seg_pattern;
+
+    // Convert 8-bit binary to decimal digits
+    assign hundreds = cpu_output / 100;
+    assign tens     = (cpu_output / 10) % 10;
+    assign ones     = cpu_output % 10;
+
+    // Refresh counter
+    always @(posedge clk or posedge rst) begin
+        if (rst)
+            clk_div <= 16'd0;
+        else
+            clk_div <= clk_div + 1'b1;
+    end
+
+    assign display_selection = clk_div[15:14];
+
+    // Select one digit at a time
+    always @(*) begin
+        display_bcd = 4'd0;
+        dp = 1'b0;
+        AN = 4'b1111;
+
+        case (display_selection)
+            2'd0: begin
+                display_bcd = ones;
+                AN = 4'b1110;
+            end
+
+            2'd1: begin
+                display_bcd = tens;
+                AN = 4'b1101;
+            end
+
+            2'd2: begin
+                display_bcd = hundreds;
+                AN = 4'b1011;
+            end
+
+            default: begin
+                display_bcd = 4'd0;
+                AN = 4'b1111;
+            end
+        endcase
+    end
+
+    // BCD to seven-segment decoding
+    always @(*) begin
+        case (display_bcd)
+            4'd0: seg_pattern = 7'b1000000;
+            4'd1: seg_pattern = 7'b1111001;
+            4'd2: seg_pattern = 7'b0100100;
+            4'd3: seg_pattern = 7'b0110000;
+            4'd4: seg_pattern = 7'b0011001;
+            4'd5: seg_pattern = 7'b0010010;
+            4'd6: seg_pattern = 7'b0000010;
+            4'd7: seg_pattern = 7'b1111000;
+            4'd8: seg_pattern = 7'b0000000;
+            4'd9: seg_pattern = 7'b0010000;
+            default: seg_pattern = 7'b1111111;
+        endcase
+    end
+
+    // Active-low decimal point and segment outputs
+    assign seg[6:0] = seg_pattern;
+    assign seg[7] = dp ? 1'b0 : 1'b1;
+
 endmodule
-module hex7seg(input [3:0] hex,output reg [6:0] seg);
-always @* case(hex)
-0:seg=7'b0000001;1:seg=7'b1001111;2:seg=7'b0010010;3:seg=7'b0000110;
-4:seg=7'b1001100;5:seg=7'b0100100;6:seg=7'b0100000;7:seg=7'b0001111;
-8:seg=7'b0000000;9:seg=7'b0000100;10:seg=7'b0001000;11:seg=7'b1100000;
-12:seg=7'b0110001;13:seg=7'b1000010;14:seg=7'b0110000;15:seg=7'b0111000;
-default:seg=7'b1111111; endcase endmodule
